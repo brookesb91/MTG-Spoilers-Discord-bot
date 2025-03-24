@@ -57,7 +57,9 @@ export async function scryfallQuery(
   ) => Promise<string[]>,
   args?: { [key: string]: any }
 ): Promise<string[]> {
-  const endpoint = `https://api.scryfall.com/cards/search?order=spoiled&q=${query}unique=cards`;
+  const endpoint = `https://api.scryfall.com/cards/search?order=spoiled&q=${encodeURIComponent(
+    query.split('+').join(' ')
+  )}&unique=cards`;
   let data = await makeScryfallAPICall(endpoint).catch((err) => {
     return Promise.reject(err);
   });
