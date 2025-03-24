@@ -57,7 +57,7 @@ export async function scryfallGetSet(
   ) => Promise<string[]>,
   args?: { [key: string]: any }
 ): Promise<string[]> {
-  const endpoint = `https://api.scryfall.com/cards/search?order=spoiled&q=e%3A${set}&unique=cards`;
+  const endpoint = `https://api.scryfall.com/cards/search?order=spoiled&q=set%3A${set}+not%3Areprint&unique=cards`;
   let data = await makeScryfallAPICall(endpoint).catch((err) => {
     return Promise.reject(err);
   });
