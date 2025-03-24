@@ -6,3 +6,4 @@ export * from './startWatch.js';
 export * from './stopWatch.js';
 export * from './prefix.js';
 export * from './help.js';
+export * from './queryCards.js';
