@@ -116,7 +116,8 @@ global.bot.on(Discord.Events.MessageCreate, async (message) => {
           break;
         case 'query':
           if (permissions.checkPermissions(message)) {
-            commands.queryCardsCommand(message.channel, arg2);
+            const query = args.slice(1).join(' ');
+            commands.queryCardsCommand(message.channel, query);
           }
           break;
         // Clears the saved data for the given set in the current channel
