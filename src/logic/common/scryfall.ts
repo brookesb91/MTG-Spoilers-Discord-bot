@@ -50,7 +50,6 @@ function _parseCard(data: string, name: string): Promise<ICard> {
 
 export async function scryfallQuery(
   query: string,
-  ignoreBasics: boolean,
   callback: (
     cards: ICard[],
     args?: { [key: string]: any }
@@ -63,28 +62,10 @@ export async function scryfallQuery(
   let data = await makeScryfallAPICall(endpoint).catch((err) => {
     return Promise.reject(err);
   });
-  let cardlist = await _parseSet(data, query, ignoreBasics).catch((err) => {
+  let cardlist = await _parseSet(data, query, false).catch((err) => {
     return Promise.reject(err);
   });
   let cards = cardlist.data;
-  while (cardlist.has_more && cardlist.next_page) {
-    Log(
-      `Response was paginated, trying to get next page from ${cardlist.next_page}.`
-    );
-    Log(
-      `Currently at ${cards.length} cards out of a total ${cardlist.total_cards}.`
-    );
-    await new Promise((resolve) =>
-      setTimeout(resolve, constants.APICALLINTERVAL)
-    );
-    data = await makeScryfallAPICall(cardlist.next_page).catch((err) => {
-      return Promise.reject(err);
-    });
-    cardlist = await _parseSet(data, query, ignoreBasics).catch((err) => {
-      return Promise.reject(err);
-    });
-    cards = cards.concat(cardlist.data);
-  }
 
   return callback(cards, args);
 }

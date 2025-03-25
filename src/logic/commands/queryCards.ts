@@ -12,17 +12,13 @@ import { scryfallQuery } from '../common/scryfall';
  */
 export function queryCardsCommand(
   channel: GuildTextBasedChannel | TextBasedChannel,
-  query: string,
-  ignoreBasics = true
+  query: string
 ) {
   let message = `Trying to get cards with query ${query}`;
 
-  if (ignoreBasics != false) {
-    message += ' (excluding basic lands)';
-  }
   channel.send(`${message}...`);
 
-  scryfallQuery(query, ignoreBasics, _getQueryMessages)
+  scryfallQuery(query, _getQueryMessages)
     .then((messages) => {
       Log(`Sending ${messages.length} cards to channel with id ${channel.id}`);
       let interval = setInterval(
